@@ -9,14 +9,13 @@ public class Proyecto {
     private int calificación;
     private EstadoProyecto estado;
 
-    
-
 
     public Proyecto(String nombre, int prioridad, LocalDate fechaInicio, EstadoProyecto estado) {
         this.nombre = nombre;
         this.prioridad = prioridad;
         this.fechaInicio = fechaInicio;
         this.estado = estado;
+        this.calificación = -1;
     }
 
     public String getNombre() {
@@ -71,6 +70,17 @@ public class Proyecto {
         StringBuilder sb = new StringBuilder();
         sb.append("Nombre proyecto: ").append(nombre).append("\n");
         sb.append("-Prioridad: ").append(prioridad).append("\n");
+        sb.append("-Estado: ").append(estado.toString()).append("\n");
+        sb.append("-Fecha inicio: ").append(fechaInicio.toString()).append("\n");
+        if(fechaEntregaMaxima.equals(null) ) sb.append("-Fecha entrega máxima: ").append("Aún no hay fecha máxima").append("\n");
+        else sb.append("-Fecha entrega máxima: ").append(fechaEntregaMaxima.toString()).append("\n");
+        
+        if(fechaEntrega.equals(null) ) sb.append("-Fecha de finalización: ").append("Aún no no se entregó").append("\n");
+        else sb.append("-Fecha entrega máxima: ").append(fechaEntregaMaxima.toString()).append("\n");
+        
+        if(calificación == -1) sb.append("-Calificación: ").append("Aún no está calificado").append("\n");
+        else sb.append("-Calificación: ").append(fechaEntrega.toString()).append("\n");
+
 
         return sb.toString();
     }
