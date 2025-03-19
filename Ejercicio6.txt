@@ -1,0 +1,19 @@
+Gestión de proyectos
+
+RolEmpleado
+- Gerente
+- Desarrollador
+- Tester
+
+Empleado: 3 atributos
+Operacion: @interface donde vamos a definir la anotacion personalizada para marcar metodos
+- Agregar empleados
+- Mostrar empleados
+- Eliminar un empleados
+
+Sistema de gestion de empleados
+
+- 1 branch por cada colaborador
+- No menos de 5 commits por colaborador
+- Dialogar cuando mergean todo a master
+- Los commits tienen que poder ser legibles
