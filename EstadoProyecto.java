@@ -1,4 +1,5 @@
 public enum EstadoProyecto {
+    NUEVO,
     PLANIFICADO,
     DESARROLLO,
     FINALIZADO,

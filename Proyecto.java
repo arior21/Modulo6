@@ -10,10 +10,9 @@ public class Proyecto {
     private EstadoProyecto estado;
 
 
-    public Proyecto(String nombre, int prioridad, LocalDate fechaInicio, EstadoProyecto estado) {
+    public Proyecto(String nombre, int prioridad, EstadoProyecto estado) {
         this.nombre = nombre;
         this.prioridad = prioridad;
-        this.fechaInicio = fechaInicio;
         this.estado = estado;
         this.calificación = -1;
     }
