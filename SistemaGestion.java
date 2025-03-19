@@ -10,10 +10,11 @@ import javax.swing.JOptionPane;
 
 public class SistemaGestion {
     private List<Empleado> empleados;
-    
+    private List<Proyecto> proyectos;
 
     public SistemaGestion(){
         empleados = new ArrayList<>();
+        proyectos = new ArrayList<>();
     }
 
     private String solicitarInput(String mensaje){
@@ -95,6 +96,9 @@ public class SistemaGestion {
     public void agregarProyecto(){
         String nombre = solicitarInput("Ingrese el nombre del proyecto: ");
         int prioridad = solicitarEntero("Ingrese la prioridad del proyecto: ");
+        Proyecto nuevoProyecto = new Proyecto(nombre, prioridad, EstadoProyecto.NUEVO);
+        proyectos.add(nuevoProyecto);
+        System.out.println("Proyecto agregado satisfactoriamente: " + nuevoProyecto);
 
     }
 
@@ -104,7 +108,7 @@ public class SistemaGestion {
     @OperacionesPermitidas(descripcion = "Planificamos el proyecto")
     public void planificarProyecto(){
         //mostrarProyectos();
-        int nP;
+        int nP=0;
         boolean continuar = true;
         while (continuar) {
             int opcion = solicitarEntero("Introduce un proyecto siendo un número del 0 al "+ (empleados.size()-1) );
@@ -125,7 +129,22 @@ public class SistemaGestion {
             
         } catch (Exception e) {
             System.out.println("Fecha invalida.");
+        }
+    }
             
+
+    
+
+    @OperacionesPermitidas(descripcion = "Mostrar proyectos")
+    public void mostrarProyectos(){
+        if(proyectos.isEmpty()){
+            System.out.println("No hay proyectos registrados");
+        }else{
+            StringBuilder sb = new StringBuilder();
+            for(Proyecto p : proyectos){
+                sb.append(p.mostrarDetalles()).append("\n");
+            }
+            JOptionPane.showMessageDialog(null, sb.toString());
         }
     }
 
