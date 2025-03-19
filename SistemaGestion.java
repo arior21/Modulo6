@@ -103,20 +103,17 @@ public class SistemaGestion {
 
     @OperacionesPermitidas(descripcion = "Planificamos el proyecto")
     public void planificarProyecto(){
-        mostrarProyectos();
-        int np;
+        //mostrarProyectos();
+        int nP;
         boolean continuar = true;
         while (continuar) {
             int opcion = solicitarEntero("Introduce un proyecto siendo un número del 0 al "+ (empleados.size()-1) );
 
             if( opcion >= 0 && opcion<empleados.size()){
-                np = opcion;
+                nP = opcion;
                 continuar = false;
             }
-            else JOptionPane.showMessageDialog(null,"Número de proyecto no valido");
-
-
-            
+            else JOptionPane.showMessageDialog(null,"Número de proyecto no valido");   
         }
 
 
@@ -124,11 +121,11 @@ public class SistemaGestion {
             String fechaIniStr = solicitarInput("Introduce la fecha de inicio del proyecto (dd-MM-yyyy)");
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            LocalDate.parse(fechaIniStr, formatter);
+            proyectos.get(nP).setFechaInicio(LocalDate.parse(fechaIniStr, formatter));
             
         } catch (Exception e) {
-            System.out.println("Fecha invalida, se usará la fecha actual.");
-            fechaContratacion = LocalDate.now();
+            System.out.println("Fecha invalida.");
+            
         }
     }
 
