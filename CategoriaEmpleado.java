@@ -1,4 +1,4 @@
 public enum CategoriaEmpleado {
-    JUNIOR
-    SENIOR    
+    JUNIOR,
+    SENIOR
 }
