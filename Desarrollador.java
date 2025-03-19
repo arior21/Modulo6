@@ -2,8 +2,8 @@ public class Desarrollador extends Empleado{
 
     private CategoriaEmpleado categoria;
 
-    public Desarrollador (String nombre, int antiguedad, CategoriaEmpleado categoria){
-        super(nombre, antiguedad);
+    public Desarrollador (String nombre, int antiguedad, double sueldo, CategoriaEmpleado categoria){
+        super(nombre, antiguedad, sueldo);
         this.categoria = categoria;
     }
 
@@ -15,4 +15,8 @@ public class Desarrollador extends Empleado{
         this.categoria = categoria;
     }
     
+    @Override
+    public String mostrarDetalles(){
+        return super.toString() + "\nCategoría: " + categoria;
+    }
 }

@@ -1,5 +1,5 @@
 public class Tester extends Empleado{
-    public Tester (String nombre, int antiguedad){
-        super(nombre, antiguedad);
+    public Tester (String nombre, int antiguedad, double sueldo){
+        super(nombre, antiguedad, sueldo);
     }
 }
