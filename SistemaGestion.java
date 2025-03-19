@@ -145,7 +145,7 @@ public class SistemaGestion {
                 System.out.println("Fecha invalida.");
             }
         }
-        JOptionPane.showMessageDialog(null, "Se ha planificado el proyecto");
+        JOptionPane.showMessageDialog(null, "Se ha planificado el proyecto "+proyectos.get(nP).getNombre());
         
     }
     
@@ -191,19 +191,177 @@ public class SistemaGestion {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public void finalizarProyecto(){
         // Mostramos todos lo proyectos
         mostrarProyectos();
-
         // Posición del proyecto seleccionadop
         int nP=0;
         boolean continuar = true;
-        // Seleccionamos el proyecto correspondiente
+        // Seleccionamos el proyecto correspondiente. Debe ser 
         while (continuar) {
             int opcion = solicitarEntero("Introduce un proyecto siendo un número del 0 al "+ (proyectos.size()-1) );
             if( opcion >= 0 && opcion<empleados.size()){
-                if(proyectos.get(opcion).getEstado().equals(EstadoProyecto.DESARROLLO)
-                && !proyectos.get(opcion).getEstado().equals(EstadoProyecto.CANCELADO)){
+                if(proyectos.get(opcion).getEstado().equals(EstadoProyecto.DESARROLLO)){
                     nP = opcion;
                     continuar = false;
                 }else{
@@ -215,7 +373,7 @@ public class SistemaGestion {
 
         proyectos.get(nP).setFechaEntrega(LocalDate.now());
 
-        JOptionPane.showMessageDialog(null, "Se ha entregado el proyecto");
+        JOptionPane.showMessageDialog(null, "Se ha entregado el proyecto "+proyectos.get(nP).getNombre());
 
     }
 
@@ -233,12 +391,11 @@ public class SistemaGestion {
         int nP=0;
         boolean continuar = true;
         int calificación = 0;
-        // Seleccionamos el proyecto correspondiente
+        // Seleccionamos el proyecto correspondiente. Debe estar en estado Finalizado
         while (continuar) {
             int opcion = solicitarEntero("Introduce un proyecto siendo un número del 0 al "+ (proyectos.size()-1) );
             if( opcion >= 0 && opcion<empleados.size()){
-                if(proyectos.get(opcion).getEstado().equals(EstadoProyecto.FINALIZADO)
-                && !proyectos.get(opcion).getEstado().equals(EstadoProyecto.CANCELADO)){
+                if(proyectos.get(opcion).getEstado().equals(EstadoProyecto.FINALIZADO)){
                     nP = opcion;
                     continuar = false;
                 }else{
@@ -247,24 +404,24 @@ public class SistemaGestion {
             }
             else JOptionPane.showMessageDialog(null,"Número de proyecto no valido");   
         }
-
+        // Solicitamos la calificación del proyecto siendo un número del 0 al 10
         continuar = true;
         while (continuar) {
             calificación = solicitarEntero("Introduce la calificación del proyecto[0,10]: ");
             if(calificación>=0 && calificación <= 10) continuar  = false;
             else JOptionPane.showMessageDialog(null, "Introduce una calificación válida");
         }
+        // Cambiamos el estado y añadimos la calificación
         proyectos.get(nP).setCalificación(calificación);
         proyectos.get(nP).setEstado(EstadoProyecto.APROBADO);
-
-        JOptionPane.showMessageDialog(null, "Se ha aprobado el proyecto.");
+        JOptionPane.showMessageDialog(null, "Se ha aprobado el proyecto "+proyectos.get(nP).getNombre());
             
     }
 
     public void cancelarProyecto(){
         int nP=0;
         boolean continuar = true;
-        // Seleccionamos el proyecto correspondiente
+        // Seleccionamos el proyecto correspondiente. Debe ser uno que no este en estado Aprobado
         while (continuar) {
             int opcion = solicitarEntero("Introduce un proyecto siendo un número del 0 al "+ (proyectos.size()-1) );
             if( opcion >= 0 && opcion<empleados.size()){
@@ -280,6 +437,7 @@ public class SistemaGestion {
         }
 
         proyectos.get(nP).setEstado(EstadoProyecto.CANCELADO);
+        JOptionPane.showMessageDialog(null, "Se ha cancelado el proyecto "+proyectos.get(nP).getNombre());
 
     }
 
