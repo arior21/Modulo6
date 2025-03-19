@@ -2,25 +2,30 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import javax.swing.JOptionPane;
+
+import javax.swing.JOptionPane;
+
 public class Main {
     public static void main(String[] args) {
+        SistemaGestion sistema = new SistemaGestion();
         Map<Integer, Consumer<Void>> menuOpciones = new HashMap<>();
 
-        //menuOpciones.put(1, (v) -> sistema.agregarProducto());
-        //menuOpciones.put(2, (v) -> sistema.mostrarInventario());
-        //menuOpciones.put(3, (v) -> sistema.aplicarDescuentoTodos());
+        menuOpciones.put(1, (v) -> sistema.agregarEmpleado());
+        menuOpciones.put(2, (v) -> sistema.agregarProyecto());
+        //menuOpciones.put(3, (v) -> sistema.planificarProyecto());
         //menuOpciones.put(4, (v) -> sistema.agregarProducto());
         //menuOpciones.put(5, (v) -> sistema.mostrarInventario());
         //menuOpciones.put(6, (v) -> sistema.aplicarDescuentoTodos());
         //menuOpciones.put(7, (v) -> sistema.agregarProducto());
         //menuOpciones.put(8, (v) -> sistema.mostrarInventario());
-        //menuOpciones.put(9, (v) -> sistema.aplicarDescuentoTodos());
+        menuOpciones.put(9, (v) -> sistema.mostrarEmpleados());
 
 
         boolean continuar = true;
-
+    
         while (continuar) {
-            String opcion = sistema.solicitarInput(
+            String opcion = JOptionPane.showInputDialog(
                 "1. Agregar empleados\n"+
                 "2. Registrar proyecto\n"+
                 "3. Planificar proyecto\n"+
