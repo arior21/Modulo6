@@ -3,7 +3,7 @@ public class Desarrollador extends Empleado{
     private CategoriaEmpleado categoria;
 
     public Desarrollador (String nombre, int antiguedad, double sueldo, CategoriaEmpleado categoria){
-        super(nombre, antiguedad, sueldo);
+        super(nombre, antiguedad, sueldo, PuestoEmpleado.DESARROLLADOR);
         this.categoria = categoria;
     }
 

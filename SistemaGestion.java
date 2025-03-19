@@ -8,9 +8,11 @@ import javax.swing.JOptionPane;
 
 public class SistemaGestion {
     private List<Empleado> empleados;
+    private List<Proyecto> proyectos;
 
     public SistemaGestion(){
         empleados = new ArrayList<>();
+        proyectos = new ArrayList<>();
     }
 
     private String solicitarInput(String mensaje){
@@ -93,42 +95,21 @@ public class SistemaGestion {
         String nombre = solicitarInput("Ingrese el nombre del proyecto: ");
         int prioridad = solicitarEntero("Ingrese la prioridad del proyecto: ");
 
+        Proyecto nuevoProyecto = Proyecto(nombre, prioridad, EstadoProyecto.NUEVO);
+        proyectos.add(nuevoProyecto);
+        System.out.println("Proyecto agregado satisfactoriamente: " + nuevoProyecto);
     }
 
-    public static void main(String[] args) {
-        TiendaArmonicas sistema = new TiendaArmonicas();
-
-        Map<Integer, Consumer<Void>> menuOpciones = new HashMap<>();
-
-        menuOpciones.put(1, (v) -> sistema.agregarProducto());
-        menuOpciones.put(2, (v) -> sistema.mostrarInventario());
-        menuOpciones.put(3, (v) -> sistema.aplicarDescuentoATodos());
-        menuOpciones.put(4, (v) -> sistema.comprarArmonica());
-
-        boolean salir = false;
-
-        while (!salir) {
-            String opcion = sistema.solicitarInput(
-                "1. Agregar producto\n"+
-                "2. Mostrar inventario\n"+
-                "3. Aplicar estafa a todos\n"+
-                "4. Comprar armónica\n"+
-                "5. Salir\n"+
-                "Seleccione una opción: ");
-                try{
-                    int opcionInt = Integer.parseInt(opcion);
-                    Consumer<Void> operacion = menuOpciones.get(opcionInt);
-                    if(operacion != null){
-                        operacion.accept(null);
-                    }else if(opcionInt == 5){
-                        salir = true;
-                        System.out.println("Saliendo del sistema tienda...");
-                    }else{
-                        System.out.println("Opción no válida");
-                    }
-                }catch(NumberFormatException e){
-                    System.out.println("Error, ingrese un número válido");
-                }
+    @OperacionesPermitidas(descripcion = "Mostrar proyectos")
+    public void mostrarProyectos(){
+        if(proyectos.isEmpty()){
+            System.out.println("No hay proyectos registrados");
+        }else{
+            StringBuilder sb = new StringBuilder();
+            for(Proyecto p : proyectos){
+                sb.append(p.mostrarDetalles()).append("\n");
+            }
+            JOptionPane.showMessageDialog(null, sb.toString());
         }
     }
 }

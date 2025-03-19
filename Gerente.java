@@ -2,7 +2,7 @@ public class Gerente extends Empleado {
     private String area;
 
     public Gerente(String nombre, int antiguedad, double sueldo, String area) {
-        super(nombre, antiguedad, sueldo);
+        super(nombre, antiguedad, sueldo, PuestoEmpleado.GERENTE);
         this.area = area;
     }
 
