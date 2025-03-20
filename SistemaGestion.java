@@ -174,8 +174,8 @@ public class SistemaGestion {
 
     @OperacionesPermitidas(descripcion = "Comenzar proyecto")
     public void comenzarProyecto(){
-        private List<Empleado> empleadosProyecto = ArrayList<>();
-        Proyecto proyecto;
+        List<Empleado> empleadosProyecto = new ArrayList<>();
+        Proyecto proyecto = null;
 
         //mostrarProyectos();
         int nP=0;
@@ -212,6 +212,7 @@ public class SistemaGestion {
             añadirEmpleados = añadirEmpleadosString.equals("y");
         }
 
+        proyecto.setEstado(EstadoProyecto.DESARROLLO);
         proyectosHashMap.put(proyecto, empleadosProyecto);
         mostrarProyectos();
     }
