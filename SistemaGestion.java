@@ -29,6 +29,7 @@ public class SistemaGestion {
                 return Double.parseDouble(solicitarInput(mensaje));
             }catch(NumberFormatException e){
                 JOptionPane.showMessageDialog(null, "Ingrese un número válido");
+                
             }
         }
     }
@@ -81,7 +82,7 @@ public class SistemaGestion {
                 throw new IllegalStateException("Puesto no válido: " + puesto);
         }
         empleados.add(nuevoEmpleado);
-        System.out.println("Empleado agregado satisfactoriamente: " + nuevoEmpleado);
+        System.out.println("Empleado agregado satisfactoriamente: " + nuevoEmpleado.getNombre());
     }
 
     @OperacionesPermitidas(descripcion = "Mostrar empleados")
@@ -103,7 +104,7 @@ public class SistemaGestion {
         int prioridad = solicitarEntero("Ingrese la prioridad del proyecto: ");
         Proyecto nuevoProyecto = new Proyecto(nombre, prioridad, EstadoProyecto.NUEVO);
         proyectos.add(nuevoProyecto);
-        System.out.println("Proyecto agregado satisfactoriamente: " + nuevoProyecto);
+        System.out.println("Proyecto agregado satisfactoriamente: " + nuevoProyecto.getNombre());
 
     }
 
@@ -116,7 +117,7 @@ public class SistemaGestion {
         else{
             // Mostramos todos lo proyectos
             mostrarProyectos();
-
+            boolean cancelar = false;
             // Posición del proyecto seleccionadop
             int nP=0;
             boolean continuar = true;
@@ -124,35 +125,43 @@ public class SistemaGestion {
             while (continuar) {
                 int opcion = solicitarEntero("Introduce un proyecto siendo un número del 0 al "+ (proyectos.size()-1) );
                 if( opcion >= 0 && opcion<empleados.size()){
-                    if(proyectos.get(opcion).getEstado().equals(EstadoProyecto.NUEVO)&& !proyectos.get(opcion).getEstado().equals(EstadoProyecto.CANCELADO)){
+                    if(proyectos.get(opcion).getEstado().equals(EstadoProyecto.NUEVO)){
                         nP = opcion;
                         continuar = false;
                     }else{
                         JOptionPane.showMessageDialog(null, "El proyecto seleccionado debe estar en estado "+EstadoProyecto.NUEVO);
+                        cancelar = true;
+                        break;
                     }       
                 }
-                else JOptionPane.showMessageDialog(null,"Número de proyecto no valido");   
-            }
-
-            // Solicitamos las fechas correspondientes
-            continuar = true;
-            while (continuar) {
-                try {
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                    String fechaIniStr = solicitarInput("Introduce la fecha de inicio del proyecto (dd-MM-yyyy)");
-                    proyectos.get(nP).setFechaInicio(LocalDate.parse(fechaIniStr, formatter));
-        
-                    String fechaEntregaStr = solicitarInput("Introduce la fecha de entrega máxima del proyecto (dd-MM-yyyy)");
-                    proyectos.get(nP).setFechaEntregaMaxima(LocalDate.parse(fechaEntregaStr, formatter));
-        
-                    proyectos.get(nP).setEstado(EstadoProyecto.PLANIFICADO);
-                    continuar = false;
-        
-                } catch (Exception e) {
-                    System.out.println("Fecha invalida.");
+                else {
+                    JOptionPane.showMessageDialog(null,"Número de proyecto no valido");
+                    cancelar =   true;
+                    break;
                 }
             }
-            JOptionPane.showMessageDialog(null, "Se ha planificado el proyecto "+proyectos.get(nP).getNombre());
+            if(!cancelar){
+
+                // Solicitamos las fechas correspondientes
+                continuar = true;
+                while (continuar) {
+                    try {
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                        String fechaIniStr = solicitarInput("Introduce la fecha de inicio del proyecto (dd-MM-yyyy)");
+                        proyectos.get(nP).setFechaInicio(LocalDate.parse(fechaIniStr, formatter));
+            
+                        String fechaEntregaStr = solicitarInput("Introduce la fecha de entrega máxima del proyecto (dd-MM-yyyy)");
+                        proyectos.get(nP).setFechaEntregaMaxima(LocalDate.parse(fechaEntregaStr, formatter));
+            
+                        proyectos.get(nP).setEstado(EstadoProyecto.PLANIFICADO);
+                        continuar = false;
+            
+                    } catch (Exception e) {
+                        System.out.println("Fecha invalida.");
+                    }
+                }
+                JOptionPane.showMessageDialog(null, "Se ha planificado el proyecto "+proyectos.get(nP).getNombre());
+            }
         }
         
     }
@@ -184,23 +193,31 @@ public class SistemaGestion {
         else{
             List<Empleado> empleadosProyecto = new ArrayList<>();
             Proyecto proyecto = null;
-
+            boolean cancelar = false;
             //mostrarProyectos();
             int nP=0;
             boolean continuar = true;
             while (continuar) {
                 int opcion = solicitarEntero("Introduce un proyecto siendo un número del 0 al "+ (proyectos.size()-1) );
 
-                if( opcion >= 0 && opcion<proyectos.size()){
-                    nP = opcion;
-                    proyecto = proyectos.get(opcion);
-                    continuar = false;
+                if( opcion >= 0 && opcion<=empleados.size()){
+                    if(proyectos.get(opcion).getEstado().equals(EstadoProyecto.PLANIFICADO)){
+                        nP = opcion;
+                        continuar = false;
+                    }else{
+                        JOptionPane.showMessageDialog(null, "El proyecto seleccionado debe estar en estado "+EstadoProyecto.PLANIFICADO);
+                        cancelar = true;
+                        break;
+                    }       
                 }
-                else JOptionPane.showMessageDialog(null,"Número de proyecto no valido");   
+                else {JOptionPane.showMessageDialog(null,"Número de proyecto no valido");   
+                cancelar = true;
+                break;
+                }
             }
-            
-            boolean añadirEmpleados = true;
-            while (añadirEmpleados){
+            if(!cancelar){
+                boolean añadirEmpleados = true;
+                while (añadirEmpleados){
                 String nombreEmpleado = solicitarInput("Introduzca el nombre del empleado que va a participar en el proyecto");
                 for(Empleado e : empleados){
                     if(nombreEmpleado.equals(e.getNombre())){
@@ -223,6 +240,7 @@ public class SistemaGestion {
             proyecto.setEstado(EstadoProyecto.DESARROLLO);
             proyectosHashMap.put(proyecto, empleadosProyecto);
             mostrarProyectos();
+            } 
         }  
     }
     
@@ -231,30 +249,39 @@ public class SistemaGestion {
     public void finalizarProyecto(){
         if(proyectos.isEmpty()) JOptionPane.showMessageDialog(null, "No hay proyectos registrados.");
         else{
-
             // Mostramos todos lo proyectos
             mostrarProyectos();
             // Posición del proyecto seleccionadop
             int nP=0;
             boolean continuar = true;
+            boolean cancelar = false;
             // Seleccionamos el proyecto correspondiente. Debe ser 
             while (continuar) {
                 int opcion = solicitarEntero("Introduce un proyecto siendo un número del 0 al "+ (proyectos.size()-1) );
-                if( opcion >= 0 && opcion<empleados.size()){
+                if( opcion >= 0 && opcion<=empleados.size()){
                     if(proyectos.get(opcion).getEstado().equals(EstadoProyecto.DESARROLLO)){
                         nP = opcion;
                         continuar = false;
                     }else{
                         JOptionPane.showMessageDialog(null, "El proyecto seleccionado debe estar en estado "+EstadoProyecto.DESARROLLO);
+                        cancelar = true;
+                        break;
                     }       
                 }
-                else JOptionPane.showMessageDialog(null,"Número de proyecto no valido");   
+                else {
+                    JOptionPane.showMessageDialog(null,"Número de proyecto no valido");
+                    cancelar = true;   
+                    break;
+                }
             }
 
-            proyectos.get(nP).setFechaEntrega(LocalDate.now());
+            if(!cancelar){
+                proyectos.get(nP).setFechaEntrega(LocalDate.now());
 
-            JOptionPane.showMessageDialog(null, "Se ha entregado el proyecto "+proyectos.get(nP).getNombre());
+                JOptionPane.showMessageDialog(null, "Se ha entregado el proyecto "+proyectos.get(nP).getNombre());
+            }
         }
+            
     }
 
 
@@ -274,30 +301,41 @@ public class SistemaGestion {
             boolean continuar = true;
             int calificación = 0;
             // Seleccionamos el proyecto correspondiente. Debe estar en estado Finalizado
+            boolean cancelar = false;
             while (continuar) {
                 int opcion = solicitarEntero("Introduce un proyecto siendo un número del 0 al "+ (proyectos.size()-1) );
-                if( opcion >= 0 && opcion<empleados.size()){
+                if( opcion >= 0 && opcion<=empleados.size()){
                     if(proyectos.get(opcion).getEstado().equals(EstadoProyecto.FINALIZADO)){
                         nP = opcion;
                         continuar = false;
                     }else{
                         JOptionPane.showMessageDialog(null, "El proyecto seleccionado debe estar en estado "+EstadoProyecto.FINALIZADO);
+                        cancelar = true;
+                        break;
                     }       
                 }
-                else JOptionPane.showMessageDialog(null,"Número de proyecto no valido");   
+                else {
+                    JOptionPane.showMessageDialog(null,"Número de proyecto no valido");   
+                    cancelar = true;
+                    break;
+                }
+            }
+            if(!cancelar){
+                continuar = true;
+                while (continuar) {
+                    calificación = solicitarEntero("Introduce la calificación del proyecto[0,10]: ");
+                    if(calificación>=0 && calificación <= 10) continuar  = false;
+                    else JOptionPane.showMessageDialog(null, "Introduce una calificación válida");
+                }
+                // Cambiamos el estado y añadimos la calificación
+                proyectos.get(nP).setCalificación(calificación);
+                proyectos.get(nP).setEstado(EstadoProyecto.APROBADO);
+                JOptionPane.showMessageDialog(null, "Se ha aprobado el proyecto "+proyectos.get(nP).getNombre());
+            }
+
             }
             // Solicitamos la calificación del proyecto siendo un número del 0 al 10
-            continuar = true;
-            while (continuar) {
-                calificación = solicitarEntero("Introduce la calificación del proyecto[0,10]: ");
-                if(calificación>=0 && calificación <= 10) continuar  = false;
-                else JOptionPane.showMessageDialog(null, "Introduce una calificación válida");
-            }
-            // Cambiamos el estado y añadimos la calificación
-            proyectos.get(nP).setCalificación(calificación);
-            proyectos.get(nP).setEstado(EstadoProyecto.APROBADO);
-            JOptionPane.showMessageDialog(null, "Se ha aprobado el proyecto "+proyectos.get(nP).getNombre());
-        }
+ 
     }
 
     public void cancelarProyecto(){
@@ -308,20 +346,24 @@ public class SistemaGestion {
             // Seleccionamos el proyecto correspondiente. Debe ser uno que no este en estado Aprobado
             while (continuar) {
                 int opcion = solicitarEntero("Introduce un proyecto siendo un número del 0 al "+ (proyectos.size()-1) );
-                if( opcion >= 0 && opcion<empleados.size()){
+                if( opcion >= 0 && opcion<=empleados.size()){
                     // Si el proyecto NO está aprobado
                     if(! proyectos.get(opcion).getEstado().equals(EstadoProyecto.APROBADO)){
                         nP = opcion;
                         continuar = false;
+                        proyectos.get(nP).setEstado(EstadoProyecto.CANCELADO);
+                        JOptionPane.showMessageDialog(null, "Se ha cancelado el proyecto "+proyectos.get(nP).getNombre());
                     }else{
                         JOptionPane.showMessageDialog(null, "El proyecto seleccionado NO debe estar en estado "+EstadoProyecto.APROBADO);
+                        break;
                     }       
                 }
-                else JOptionPane.showMessageDialog(null,"Número de proyecto no valido");   
+                else {
+                    JOptionPane.showMessageDialog(null,"Número de proyecto no valido");
+                    break;
+                }
             }
 
-            proyectos.get(nP).setEstado(EstadoProyecto.CANCELADO);
-            JOptionPane.showMessageDialog(null, "Se ha cancelado el proyecto "+proyectos.get(nP).getNombre());
         }
 
     }

@@ -14,12 +14,13 @@ public class Main {
         menuOpciones.put(1, (v) -> sistema.agregarEmpleado());
         menuOpciones.put(2, (v) -> sistema.agregarProyecto());
         menuOpciones.put(3, (v) -> sistema.planificarProyecto());
-        //menuOpciones.put(4, (v) -> sistema.agregarProducto());
+        menuOpciones.put(4, (v) -> sistema.comenzarProyecto());
         menuOpciones.put(5, (v) -> sistema.finalizarProyecto());
         menuOpciones.put(6, (v) -> sistema.aprobarProyecto());
         menuOpciones.put(7, (v) -> sistema.cancelarProyecto());
         menuOpciones.put(8, (v) -> sistema.mostrarProyectos());
         menuOpciones.put(9, (v) -> sistema.mostrarEmpleados());
+        menuOpciones.put(10, (v) -> sistema.eliminarEmpleado());
 
 
         boolean continuar = true;
@@ -35,14 +36,15 @@ public class Main {
                 "7. Cancelar proyecto\n"+
                 "8. Mostrar todos los proyectos\n"+
                 "9. Mostrar empleados\n"+
-                "10. Salir\n"
+                "10. Eliminar empleado\n"+
+                "11. Salir\n"
             );
             try{
                 int opcionInt = Integer.parseInt(opcion);
-                Consumer<Void> operacion = menuOpciones.get(opcion);
+                Consumer<Void> operacion = menuOpciones.get(opcionInt);
                 if(operacion != null){
                     operacion.accept(null);
-                }else if(opcionInt == 10){
+                }else if(opcionInt == 11){
                     continuar = false;
                     System.out.println("Saliendo del sistema tienda...");
                 }else{

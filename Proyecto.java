@@ -70,11 +70,14 @@ public class Proyecto {
         sb.append("Nombre proyecto: ").append(nombre).append("\n");
         sb.append("-Prioridad: ").append(prioridad).append("\n");
         sb.append("-Estado: ").append(estado.toString()).append("\n");
-        sb.append("-Fecha inicio: ").append(fechaInicio.toString()).append("\n");
-        if(fechaEntregaMaxima.equals(null) ) sb.append("-Fecha entrega máxima: ").append("Aún no hay fecha máxima").append("\n");
+       
+        if(fechaInicio == null) sb.append("-Fecha inicio: ").append("Aún no hay fecha inicio").append("\n");
+        else  sb.append("-Fecha inicio: ").append(fechaInicio.toString()).append("\n");
+
+        if(fechaEntregaMaxima == null) sb.append("-Fecha entrega máxima: ").append("Aún no hay fecha máxima").append("\n");
         else sb.append("-Fecha entrega máxima: ").append(fechaEntregaMaxima.toString()).append("\n");
         
-        if(fechaEntrega.equals(null) ) sb.append("-Fecha de finalización: ").append("Aún no no se entregó").append("\n");
+        if(fechaEntrega == null) sb.append("-Fecha de finalización: ").append("Aún no no se entregó").append("\n");
         else sb.append("-Fecha entrega máxima: ").append(fechaEntregaMaxima.toString()).append("\n");
         
         if(calificación == -1) sb.append("-Calificación: ").append("Aún no está calificado").append("\n");
