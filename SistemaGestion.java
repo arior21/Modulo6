@@ -57,20 +57,23 @@ public class SistemaGestion {
 
         double sueldo = solicitarDouble("Ingrese el sueldo del empleado: ");
 
+        String id = solicitarInput("Introduce el id: ");
+        
+
 
         Empleado nuevoEmpleado;
 
         switch (puesto) {
             case GERENTE:
                 String area = solicitarInput("Ingrese el área del gerente: ");
-                nuevoEmpleado = new Gerente(nombre, antiguedad, sueldo, area);
+                nuevoEmpleado = new Gerente(id, nombre, antiguedad, sueldo, area);
                 break;
             case DESARROLLADOR:
                 CategoriaEmpleado categoria = (antiguedad >= 2 ? CategoriaEmpleado.JUNIOR : CategoriaEmpleado.SENIOR);
-                nuevoEmpleado = new Desarrollador(nombre, antiguedad, sueldo, categoria);
+                nuevoEmpleado = new Desarrollador(id, nombre, antiguedad, sueldo, categoria);
                 break;
             case TESTER:
-                nuevoEmpleado = new Tester(nombre, antiguedad, sueldo);
+                nuevoEmpleado = new Tester(id, nombre, antiguedad, sueldo);
             break;
             default:
                 throw new IllegalStateException("Puesto no válido: " + puesto);
@@ -439,6 +442,24 @@ public class SistemaGestion {
         proyectos.get(nP).setEstado(EstadoProyecto.CANCELADO);
         JOptionPane.showMessageDialog(null, "Se ha cancelado el proyecto "+proyectos.get(nP).getNombre());
 
+    }
+
+
+    public void eliminarEmpleado(){
+        mostrarEmpleados();
+        int encontrando =  -1;
+        String id = JOptionPane.showInputDialog(null, "Introduce el id del empleado a eliminar");
+        for(int i = 0; i<empleados.size();i++){
+            if(empleados.get(i).getId() == id) {
+                encontrando =i;
+            }
+        }
+        if(encontrando==-1) JOptionPane.showMessageDialog(null, "El empleado no ha sido encontrando.");
+        else{
+            empleados.remove(encontrando);
+            JOptionPane.showMessageDialog(null, "El empleado "+encontrando+" ha sido eliminado");
+        
+        }
     }
 
 }
