@@ -13,12 +13,12 @@ public class Main {
 
         menuOpciones.put(1, (v) -> sistema.agregarEmpleado());
         menuOpciones.put(2, (v) -> sistema.agregarProyecto());
-        //menuOpciones.put(3, (v) -> sistema.planificarProyecto());
+        menuOpciones.put(3, (v) -> sistema.planificarProyecto());
         //menuOpciones.put(4, (v) -> sistema.agregarProducto());
-        //menuOpciones.put(5, (v) -> sistema.mostrarInventario());
-        //menuOpciones.put(6, (v) -> sistema.aplicarDescuentoTodos());
-        //menuOpciones.put(7, (v) -> sistema.agregarProducto());
-        //menuOpciones.put(8, (v) -> sistema.mostrarInventario());
+        menuOpciones.put(5, (v) -> sistema.finalizarProyecto());
+        menuOpciones.put(6, (v) -> sistema.aprobarProyecto());
+        menuOpciones.put(7, (v) -> sistema.cancelarProyecto());
+        menuOpciones.put(8, (v) -> sistema.mostrarProyectos());
         menuOpciones.put(9, (v) -> sistema.mostrarEmpleados());
 
 
