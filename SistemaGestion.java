@@ -11,10 +11,12 @@ import javax.swing.JOptionPane;
 public class SistemaGestion {
     private List<Empleado> empleados;
     private List<Proyecto> proyectos;
+    Map<Proyecto, List<Empleado>> proyectosHashMap;
 
     public SistemaGestion(){
         empleados = new ArrayList<>();
         proyectos = new ArrayList<>();
+        proyectosHashMap = new HashMap<>();
     }
 
     private String solicitarInput(String mensaje){
@@ -163,11 +165,59 @@ public class SistemaGestion {
             StringBuilder sb = new StringBuilder();
             for(Proyecto p : proyectos){
                 sb.append(p.mostrarDetalles()).append("\n");
+                List<Empleado> empleados = proyectosHashMap.getOrDefault(p, new ArrayList<>());
+
+                for (Empleado empleado : empleados) {
+                    sb.append(empleado.mostrarDetalles()).append("\n");
+                }
             }
             JOptionPane.showMessageDialog(null, sb.toString());
         }
     }
 
+    @OperacionesPermitidas(descripcion = "Comenzar proyecto")
+    public void comenzarProyecto(){
+        private List<Empleado> empleadosProyecto = ArrayList<>();
+        Proyecto proyecto;
+
+        //mostrarProyectos();
+        int nP=0;
+        boolean continuar = true;
+        while (continuar) {
+            int opcion = solicitarEntero("Introduce un proyecto siendo un número del 0 al "+ (proyectos.size()-1) );
+
+            if( opcion >= 0 && opcion<proyectos.size()){
+                nP = opcion;
+                proyecto = proyectos.get(opcion);
+                continuar = false;
+            }
+            else JOptionPane.showMessageDialog(null,"Número de proyecto no valido");   
+        }
+        
+        boolean añadirEmpleados = true;
+        while (añadirEmpleados){
+            String nombreEmpleado = solicitarInput("Introduzca el nombre del empleado que va a participar en el proyecto");
+            for(Empleado e : empleados){
+                if(nombreEmpleado.equals(e.getNombre())){
+                    if(empleadosProyecto.contains(e)){
+                        JOptionPane.showMessageDialog(null, "El empleado " + nombreEmpleado + "ya está participando en el proyecto.");
+                    }else{
+                        empleadosProyecto.add(e);
+                    } 
+                }
+            }
+
+            String añadirEmpleadosString;
+            do {
+                añadirEmpleadosString = solicitarInput("¿Desea añadir más empleados al proyecto? (y/n)").toLowerCase();
+            } while (!añadirEmpleadosString.equals("y") && !añadirEmpleadosString.equals("n"));
+            
+            añadirEmpleados = añadirEmpleadosString.equals("y");
+        }
+
+        proyectosHashMap.put(proyecto, empleadosProyecto);
+        mostrarProyectos();
+    }
     
 
 
